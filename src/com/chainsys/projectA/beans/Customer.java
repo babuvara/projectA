@@ -1,7 +1,6 @@
 package com.chainsys.projectA.beans;
 
-public class Employee {
-
+public class Customer {
 	private int id;
 	private String name;
 
@@ -19,14 +18,14 @@ public class Employee {
 
 	public void setName(String name) {
 		this.name = name;
-
 	}
 
 	public void print() {
-		System.out.println(this.getId());
-		System.out.println(this.getName());
+		System.out.println(this.id);
+		System.out.println(this.name);
 	}
-	public Employee() {
-		System.out.println("Employee object Created "+hashCode());
+
+	public Customer() {
+		System.out.println("Customer Object Created "+hashCode());
 	}
 }

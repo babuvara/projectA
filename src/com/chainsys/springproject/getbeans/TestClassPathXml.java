@@ -1,14 +1,14 @@
-package com.chainsys.projectA.getbeans;
+package com.chainsys.springproject.getbeans;
 
 import org.springframework.context.ApplicationContext;//parent
 import org.springframework.context.support.ClassPathXmlApplicationContext;//child
 
-import com.chainsys.projectA.beans.Actor;
-import com.chainsys.projectA.beans.Calender;
-import com.chainsys.projectA.beans.Customer;
-import com.chainsys.projectA.beans.Employee;
-import com.chainsys.projectA.beans.Lunch;
-import com.chainsys.projectA.beans.ScoreBoard;
+import com.chainsys.springproject.beans.Actor;
+import com.chainsys.springproject.beans.Calender;
+import com.chainsys.springproject.beans.Customer;
+import com.chainsys.springproject.beans.Employee;
+import com.chainsys.springproject.beans.Lunch;
+import com.chainsys.springproject.beans.ScoreBoard;
 
 public class TestClassPathXml {
 	public static void testA() {
@@ -95,5 +95,11 @@ public class TestClassPathXml {
 		nilunch.serve();
 		System.out.println("-----");
 		chlunch.serve();
+	}
+	public static void testSetterDi()
+	{
+		ApplicationContext ac1=new ClassPathXmlApplicationContext("beans.xml");
+		Employee emp=ac1.getBean("emp2",Employee.class);
+		emp.print();
 	}
 }

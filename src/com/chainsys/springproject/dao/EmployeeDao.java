@@ -10,13 +10,16 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 public class EmployeeDao {
-	private Connection oracleConnection;
+	private static Connection oracleConnection;
 	// init-method
-	private void getConnection() {
+
+	public void getConnection() {
+		System.out.println("getconnection");
+		Connection con = null;
 		String drivername = "oracle.jdbc.OracleDriver";
 		String dbUrl = "jdbc:oracle:thin:@localhost:1521:xe";
 		String username = "system";
-		String password = "oracle";
+		String password = "123";
 		try {
 			Class.forName(drivername);
 		} catch (ClassNotFoundException e) {
@@ -29,13 +32,13 @@ public class EmployeeDao {
 		}
 	}
 
-	private  java.sql.Date convertTosqlDate(java.util.Date date) {
+	public static java.sql.Date convertTosqlDate(java.util.Date date) {
 		java.sql.Date sqldate = new java.sql.Date(date.getTime());
 		return sqldate;
 	}
 
 // To insert new row to the table employees
-	public  int insertEmployee(Employee newemp) {
+	public static int insertEmployee(Employee newemp) {
 		String insertquery = "insert into employees(EMPLOYEE_ID,FIRST_NAME,LAST_NAME,EMAIL,HIRE_DATE,JOB_ID,SALARY) values (?,?,?,?,?,?,?)";
 		Connection con = null;
 		int rows = 0;
@@ -54,19 +57,19 @@ public class EmployeeDao {
 
 			rows = ps.executeUpdate();
 		} catch (SQLException e) {
-			e.printStackTrace(); //TODO: ExceptionManager
+			e.printStackTrace(); // TODO: ExceptionManager
 		} finally {
 			try {
 				ps.close();
 			} catch (SQLException e) {
-				e.printStackTrace(); //TODO: ExceptionManager
+				e.printStackTrace(); // TODO: ExceptionManager
 			}
 		}
 		return rows;
 	}
 
 	// for updating all the columns of the table
-	public  int updateEmployee(Employee newemp) {
+	public static int updateEmployee(Employee newemp) {
 		String updatequery = "update employees set FIRST_NAME=?,LAST_NAME=?,EMAIL=?,HIRE_DATE=?,JOB_ID=?,SALARY=? where employee_id=?";
 		Connection con = null;
 		int rows = 0;
@@ -86,19 +89,19 @@ public class EmployeeDao {
 			ps.executeUpdate();
 			rows = ps.executeUpdate();
 		} catch (SQLException e) {
-			e.printStackTrace(); //TODO: ExceptionManager
+			e.printStackTrace(); // TODO: ExceptionManager
 		} finally {
 			try {
 				ps.close();
 			} catch (SQLException e) {
-				e.printStackTrace(); //TODO: ExceptionManager
+				e.printStackTrace(); // TODO: ExceptionManager
 			}
 		}
 		return rows;
 	}
 
 	// to update only one column of the table
-	public  int updateEmployeeFirstName(int id, String fname) {
+	public static int updateEmployeeFirstName(int id, String fname) {
 		String updatequery = "update employees set FIRST_NAME=? where employee_id=?";
 		Connection con = null;
 		int rows = 0;
@@ -111,18 +114,18 @@ public class EmployeeDao {
 			ps.executeUpdate();
 			rows = ps.executeUpdate();
 		} catch (SQLException e) {
-			e.printStackTrace(); //TODO: ExceptionManager
+			e.printStackTrace(); // TODO: ExceptionManager
 		} finally {
 			try {
 				ps.close();
 			} catch (SQLException e) {
-				e.printStackTrace(); //TODO: ExceptionManager
+				e.printStackTrace(); // TODO: ExceptionManager
 			}
 		}
 		return rows;
 	}
 
-	public  int updateEmployeeSalary(int id, float salary) {
+	public static int updateEmployeeSalary(int id, float salary) {
 		String updatequery = "update employees set SALARY=? where employee_id=?";
 		Connection con = null;
 		int rows = 0;
@@ -135,18 +138,18 @@ public class EmployeeDao {
 			ps.executeUpdate();
 			rows = ps.executeUpdate();
 		} catch (SQLException e) {
-			e.printStackTrace(); //TODO: ExceptionManager
+			e.printStackTrace(); // TODO: ExceptionManager
 		} finally {
 			try {
 				ps.close();
 			} catch (SQLException e) {
-				e.printStackTrace(); //TODO: ExceptionManager
+				e.printStackTrace(); // TODO: ExceptionManager
 			}
 		}
 		return rows;
 	}
 
-	public  int deleteEmployee(int id) {
+	public static int deleteEmployee(int id) {
 		String deletequery = "delete from employees where EMPLOYEE_ID=?";
 		Connection con = null;
 		int rows = 0;
@@ -158,19 +161,19 @@ public class EmployeeDao {
 			ps.setInt(1, id);
 			rows = ps.executeUpdate();
 		} catch (SQLException e) {
-			e.printStackTrace(); //TODO: ExceptionManager
+			e.printStackTrace(); // TODO: ExceptionManager
 		} finally {
 			try {
 				ps.close();
 			} catch (SQLException e) {
-				e.printStackTrace(); //TODO: ExceptionManager
+				e.printStackTrace(); // TODO: ExceptionManager
 			}
 		}
 		return rows;
 	}
 
 	// To retrive specific Employee data using employee_id
-	public  Employee getEmployeeById(int id) {
+	public static Employee getEmployeeById(int id) {
 		Employee emp = null;
 		String selectquery = "select EMPLOYEE_ID,FIRST_NAME,LAST_NAME,EMAIL,HIRE_DATE,JOB_ID,SALARY  from Employees where employee_id = ? ";
 		Connection con = null;
@@ -198,19 +201,19 @@ public class EmployeeDao {
 			try {
 				rs.close();
 			} catch (SQLException e1) {
-				e1.printStackTrace(); //TODO: ExceptionManager
+				e1.printStackTrace(); // TODO: ExceptionManager
 			}
 			try {
 				ps.close();
 			} catch (SQLException e) {
-				e.printStackTrace(); //TODO: ExceptionManager
+				e.printStackTrace(); // TODO: ExceptionManager
 			}
 		}
 		return emp;
 	}
 
 	// To retrieve all employee data
-	public  List<Employee> getAllEmployee() {
+	public static List<Employee> getAllEmployee() {
 		List<Employee> listOfEmployees = new ArrayList<Employee>();
 		Employee emp = null;
 		String selectquery = "select EMPLOYEE_ID,FIRST_NAME,LAST_NAME,EMAIL,HIRE_DATE,JOB_ID,SALARY  from Employees ";
@@ -240,22 +243,23 @@ public class EmployeeDao {
 			try {
 				rs.close();
 			} catch (SQLException e1) {
-				e1.printStackTrace(); //TODO: ExceptionManager
+				e1.printStackTrace(); // TODO: ExceptionManager
 			}
 			try {
 				ps.close();
 			} catch (SQLException e) {
-				e.printStackTrace(); //TODO: ExceptionManager
+				e.printStackTrace(); // TODO: ExceptionManager
 			}
 		}
 		return listOfEmployees;
 	}
+
 	// destroyed-method
 	public void close() {
 		try {
 			oracleConnection.close();
 		} catch (SQLException e) {
-			e.printStackTrace(); //TODO: ExceptionManager
+			e.printStackTrace(); // TODO: ExceptionManager
 		}
 	}
 }
